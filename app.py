@@ -4,6 +4,9 @@ import requests
 import os
 
 app = Flask(__name__)
+import os
+
+FAQ_FILE = os.path.join(os.path.dirname(__file__), "faqs.csv")
 
 # Load Hugging Face API key from environment variable
 HF_API_KEY = os.environ.get("HF_API_KEY")
