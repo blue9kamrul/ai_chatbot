@@ -37,8 +37,8 @@ def get_bot_response(user_input):
         )
         return response['choices'][0]['message']['content']
     except Exception as e:
-        # Fallback for errors
-        return "Sorry, I couldn't process that right now. Please try again later."
+        return f"Error talking to OpenAI: {e}"
+
 
 
 @app.route("/")
