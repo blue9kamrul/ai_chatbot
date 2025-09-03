@@ -42,12 +42,19 @@ def query_hf_api(prompt):
         response = requests.post(API_URL, headers=headers, json=payload, timeout=30)
         response.raise_for_status()
         data = response.json()
+        # Check for error
         if isinstance(data, dict) and data.get("error"):
+            print(f"HF API error: {data['error']}")
             return "Sorry, I couldn't process that right now."
-        return data[0]["generated_text"]
+        # Extract generated text safely
+        if isinstance(data, list) and "generated_text" in data[0]:
+            return data[0]["generated_text"]
+        print(f"Unexpected HF API response: {data}")
+        return "Sorry, I couldn't generate a response."
     except Exception as e:
-        print(f"Error querying HF API: {e}")
+        print(f"Exception calling HF API: {e}")
         return "Sorry, I couldn't process that right now."
+
 
 # Route for home page
 @app.route("/")
