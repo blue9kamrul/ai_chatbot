@@ -3,8 +3,13 @@ import openai, os, csv
 from dotenv import load_dotenv
 load_dotenv()
 
+from openai import OpenAI
+
+client = OpenAI()
+
+
 app = Flask(__name__)
-openai.api_key = os.environ.get("OPENAI_API_KEY")
+client = OpenAI(api_key=os.environ.get("OPENAI_API_KEY"))
 
 # Load FAQs
 faq_list = []
@@ -26,7 +31,7 @@ def get_bot_response(user_input):
 
     # 2. Fall back to AI for everything else
     try:
-        response = openai.ChatCompletion.create(
+        response = client.chat.completions.create(
             model="gpt-3.5-turbo",
             messages=[
                 {"role": "system", "content": "You are a helpful assistant for a business."},
